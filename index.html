@@ -83,6 +83,11 @@ app.controller('FormCtrl', function($scope, $http) {
             // headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
           }).then(function successCallback(data) {
             // console.log(data)
+            if (data.data.items[0]==undefined)
+            { 
+              $scope.loading = false;
+              return alert('Enter a valid blondeabroad domain url');
+            }
             var events = [];
             for (var i=0; i<data.data.items[0].blog_text.length; i++)
             {
