@@ -1,0 +1,24 @@
+{
+	"name" : "angular-button-spinner",
+	"version" : "0.0.3",
+	"homepage" : "https://github.com/jvdvleuten/angular-button-spinner",
+	"authors" : [
+		"Johan van der Vleuten <jvdvleuten@gmail.com>"
+	],
+	"description" : "Directive to show a spinner during loading in a button",
+	"main" : "dist/angular-button-spinner.js",
+	"keywords" : [
+		"Angular",
+		"AngularJS",
+		"loading",
+		"request",
+		"spinner"
+	],
+	"license" : "MIT",
+	"ignore" : [
+		"*",
+		"!dist/",
+		"!dist/*"
+	],
+	"dependencies" : {}
+}
