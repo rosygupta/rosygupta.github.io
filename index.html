@@ -1,134 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>The Trip Summary</title>
-  <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="./dist/angular-timeline.css" />
-  <link rel="stylesheet" href="./dist/angular-timeline-bootstrap.css" />
-  <link rel="stylesheet" href="./dist/angular-timeline-animations.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-</head>
-
-<body>
-<script src="./bower_components/angular/angular.js"></script>
-<script src="./bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="./bower_components/angular-sanitize/angular-sanitize.js"></script>
-<script src="./bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="./bower_components/angular-button-spinner/dist/angular-button-spinner.js"></script>
-<script src="./bower_components/angular-scroll-animate/dist/angular-scroll-animate.js"></script>
-<script src="./dist/angular-timeline.js"></script>
-
-<div ng-form = "Form" ng-app="myApp" ng-controller="FormCtrl">
-  <h1>The Trip Summary </h1>
-    <input type="url" name="input" style="width:500px; height:30px;" placeholder="Enter the URL" ng-model="url.text">
-    <a class="btn btn-success" ng-click="myFunc(Form.$valid)" button-spinner="loading" ng-disabled="loading">Scrape</a>
-    <span ng-show="Form.input.$error.required">This field is required</span>
-    <span ng-show="Form.input.$error.url"> Not valid url!</span>
-  </br>
-  </br>
-  <h2><center>{{heading}}</center></h2>
-  </br>
-  </br>
-  <timeline>
-    <timeline-event ng-repeat="event in events" side={{side}}>
-      <timeline-badge class="{{event.badgeClass}} timeline-hidden" when-visible="animateElementIn" when-not-visible="animateElementOut">
-        <i class="glyphicon {{event.badgeIconClass}}"></i>
-      </timeline-badge>
-      <timeline-panel class="{{event.badgeClass}}timeline-hidden"
-                      when-visible="animateElementIn" when-not-visible="animateElementOut">
-        <timeline-heading>
-          <h4>{{event.title}}</h4>
-        </timeline-heading>
-        <p> {{event.content}}</p>
-        </br>
-        <p ng-repeat = "content in event.titleContentHtml track by $index">
-        <a href = "{{ content }}" target="_blank"> Click to see relevant image{{$index + 1}} </a>
-        </p>
-        </br>
-        <p ng-if="event.money">
-          <small class="text-muted">
-          <p ng-repeat = "money in event.money">
-          <img src="https://cdn0.iconfinder.com/data/icons/objects-things-essential-vol-1/48/v-14-512.png" height="42" width="42"> 
-          {{money}}
-          </p>
-          </small>
-        </p>
-      </timeline-panel>
-    </timeline-event>
-  </timeline>
-</div>
-
+<html>
 <script>
-var app = angular.module('myApp', [
-  'ngSanitize',
-  'ui.router',
-  'angular-timeline',
-  'angular-scroll-animate',
-  'angular-button-spinner'
-]);
-
-app.controller('FormCtrl', function($scope, $http) {
-    $scope.loading = false;
-    $scope.myFunc = function (formValid) {
-      if(formValid && $scope.url.text.indexOf('http://theblondeabroad.com')>-1)
-      { 
-
-          $scope.loading = true;
-          $http({
-            url: 'http://ec2-13-59-213-113.us-east-2.compute.amazonaws.com:6800/crawl.json?spider_name=BlogSpider&url='+ $scope.url.text,
-            method: "GET",
-            // headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }).then(function successCallback(data) {
-            // console.log(data)
-            if (data.data.items[0]==undefined)
-            { 
-              $scope.loading = false;
-              return alert('Enter a valid blondeabroad domain url');
-            }
-            var events = [];
-            for (var i=0; i<data.data.items[0].blog_text.length; i++)
-            {
-              // console.log(data.data.items[0].blog_text[i].description)
-              events.push({
-                badgeClass: 'info',
-                badgeIconClass: 'glyphicon-check',
-                title: data.data.items[0].blog_text[i].sub_heading,
-                content: data.data.items[0].blog_text[i].description,
-                money: data.data.items[0].blog_text[i].money_spent_phrases,
-                titleContentHtml: data.data.items[0].blog_text[i].images,
-
-              });
-            }
-            $scope.events = events;
-            $scope.heading = data.data.items[0].heading;
-            $scope.side = '';
-            $scope.animateElementIn = function($el) {
-              $el.removeClass('timeline-hidden');
-              $el.addClass('bounce-in');
-            };
-
-            // optional: not mandatory (uses angular-scroll-animate)
-            $scope.animateElementOut = function($el) {
-              $el.addClass('timeline-hidden');
-              $el.removeClass('bounce-in');
-            };
-             // search is complete
-             $scope.loading = false;
-          }, function errorCallback(response) {
-             console.log('error==', response);
-             $scope.loading = false;
-             return alert('Something went fishy! Try again.')
-          });
-        }
-        else{
-          return alert('Enter a valid blondeabroad domain url');
-        }
-    }
-      
-});
+	(function(s,u,r,f,l,y){s[f]=s[f]||{init:function(){s[f].q=arguments}};
+	l=u.createElement(r);y=u.getElementsByTagName(r)[0];l.async=1;
+	l.src='https://surfly.com/surfly.js';y.parentNode.insertBefore(l,y);})
+	(window,document,'script','Surfly');
 </script>
-</body>
+<script>
+  function sessionStart(){
+    Surfly.session({chat_box_color: "#87cefa", videochat: false}).startLeader();
+  }
+
+  Surfly.init({widget_key:'3634367ebf1c4364bfd33db60e27065a'}, function(init) {
+    if (init.success) {
+      if (!Surfly.currentSession) {
+        // inside the session, hide the get help section (of id 'get_help')
+        document.getElementById('get_help_button').style.display="block";
+      }
+    }
+  })
+</script>
+<button class="my-custom-button" id="get_help_button" style="display: none" onclick="sessionStart()"></button>
+
 </html>
