@@ -6,18 +6,24 @@
 	(window,document,'script','Surfly');
 </script>
 <script>
-  function sessionStart(){
-    Surfly.session({chat_box_color: "#87cefa", videochat: false}).startLeader();
-  }
-
-  Surfly.init({widget_key:'3634367ebf1c4364bfd33db60e27065a'}, function(init) {
-    if (init.success) {
-      if (!Surfly.currentSession) {
-        // inside the session, hide the get help section (of id 'get_help')
-        document.getElementById('get_help_button').style.display="block";
-      }
+//   function sessionStart(){
+//     Surfly.session({chat_box_color: "#87cefa", videochat: false}).startLeader();
+//   }
+var settings = {
+  widget_key:'3634367ebf1c4364bfd33db60e27065a',
+  only_embedded_sessions: true
+};
+Surfly.init(settings, function(initResult) {
+  if (initResult.success) {
+    console.log('All good for happy cobrowsing!');
+    // it is now safe to use API
+    if (!Surfly.isInsideSession) {
+      Surfly.button();
     }
-  })
+  } else {
+    console.log('Your browser lacks features required by Surfly');
+  }
+});
 </script>
 <button class="my-custom-button" id="get_help_button" style="display: none" onclick="sessionStart()"></button>
 
